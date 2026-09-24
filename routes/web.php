@@ -10,7 +10,7 @@ use App\Http\Controllers\MatriculaController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - Aplikazioen Garapena eta Web Plataforma
+| Web Routes - IkasKude
 |--------------------------------------------------------------------------
 */
 

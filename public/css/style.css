@@ -1,7 +1,6 @@
 /**
  * ====================================================================
- * Aplikazioen Garapena eta Web Plataforma - Estilo Korporatiboak
- * Zibersegurtasun Espezializazioa
+ * IkasKude - Estilo Korporatiboak
  * ====================================================================
  * Paleta Korporatiboa:
  * - Violeta principal:    #563F98
@@ -264,21 +263,21 @@ main {
  * 6. METRIKA ETA STAT TXARTELAK (Admin Metric Cards)
  * ------------------------------------------------------------------ */
 .stat-card-total {
-    background: linear-gradient(135deg, var(--color-violet-primary) 0%, var(--color-violet-secondary) 100%);
+    background: var(--color-violet-primary);
     color: var(--color-white);
     border: none;
     border-radius: 8px;
 }
 
 .stat-card-success {
-    background: linear-gradient(135deg, var(--color-green-deep) 0%, #467945 100%);
+    background: var(--color-green-deep);
     color: var(--color-white);
     border: none;
     border-radius: 8px;
 }
 
 .stat-card-tech {
-    background: linear-gradient(135deg, var(--color-dark-surface) 0%, #363261 100%);
+    background: var(--color-dark-surface);
     color: var(--color-white);
     border: none;
     border-radius: 8px;

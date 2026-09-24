@@ -20,7 +20,7 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
                             <label for="kodea" class="form-label fw-semibold text-dark-surface">Kodea:</label>
-                            <input type="text" name="kodea" id="kodea" class="form-control form-control-corporate @error('kodea') is-invalid @enderror" value="{{ old('kodea') }}" required placeholder="adib: CIBER-05">
+                            <input type="text" name="kodea" id="kodea" class="form-control form-control-corporate @error('kodea') is-invalid @enderror" value="{{ old('kodea') }}" required placeholder="adib: ZIBER-05">
                             @error('kodea')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

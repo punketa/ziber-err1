@@ -6,7 +6,7 @@
         <h1 class="h2 fw-bold mb-1 text-dark-surface">
             <i class="bi bi-mortarboard-fill me-2 text-violet-primary"></i>Ikastaroen Eskaintza
         </h1>
-        <p class="text-muted mb-0">Aplikazioen Garapena eta Web Plataforma &bull; Formakuntza eta Trebakuntza Espezializatua</p>
+        <p class="text-muted mb-0">Ikastaroen eskaintzaren kudeaketa administratiboa</p>
     </div>
     <div class="col-md-4 mt-3 mt-md-0">
         <form action="{{ route('home') }}" method="GET" class="d-flex gap-2">

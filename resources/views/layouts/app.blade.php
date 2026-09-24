@@ -108,7 +108,7 @@
 
     <footer class="footer-custom text-center py-4 mt-auto">
         <div class="container">
-            <p class="mb-0 fw-semibold footer-brand">Aplikazioen Garapena eta Web Plataforma</p>
+            <p class="mb-0 fw-semibold footer-brand">IkasKude - Ikastaroen Eskaintza</p>
         </div>
     </footer>
 
