@@ -8,19 +8,39 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Erabiltzaileen kudeaketarako kontrolatzailea (CRUD osoa).
+ * Administratzaileari erabiltzaileak sortu, ikusi, editatu eta ezabatzeko aukera ematen dio.
+ */
 class UsuarioController extends Controller
 {
+    /**
+     * Erabiltzaile guztien zerrenda bistaratzen du matrikula kopuruekin.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $usuarios = User::withCount('matriculas')->get();
         return view('admin.usuarios.index', compact('usuarios'));
     }
 
+    /**
+     * Erabiltzaile berria eskuz sortzeko formularioa erakusten du.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('admin.usuarios.create');
     }
 
+    /**
+     * Erabiltzaile berria balidatu, pasahitza Bcrypt bidez babestu eta datu-basean gordetzen du.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -39,11 +59,25 @@ class UsuarioController extends Controller
         return redirect()->route('admin.usuarios.index')->with('success', 'Erabiltzailea arrakastaz sortu da!');
     }
 
+    /**
+     * Erabiltzailea aldatzeko formularioa bistaratzen du.
+     *
+     * @param  \App\Models\User  $usuario
+     * @return \Illuminate\View\View
+     */
     public function edit(User $usuario)
     {
         return view('admin.usuarios.edit', compact('usuario'));
     }
 
+    /**
+     * Aldatutako erabiltzailearen datuak balidatu eta eguneratzen ditu.
+     * Segurtasuna: Administratzaile batek ezin dio bere buruari rola kendu.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $usuario
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, User $usuario)
     {
         $validated = $request->validate([
@@ -71,6 +105,13 @@ class UsuarioController extends Controller
         return redirect()->route('admin.usuarios.index')->with('success', 'Erabiltzailea arrakastaz eguneratu da!');
     }
 
+    /**
+     * Erabiltzaile bat datu-basetik ezabatzen du.
+     * Segurtasuna: Erabiltzaile batek ezin du bere burua ezabatu.
+     *
+     * @param  \App\Models\User  $usuario
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(User $usuario)
     {
         // Ciberseguridad: prevenir que un admin se elimine a sí mismo

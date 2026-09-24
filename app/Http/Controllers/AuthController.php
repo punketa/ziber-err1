@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 
+/**
+ * Erabiltzaileen autentifikaziorako kontrolatzailea (Login, Erregistroa, Logout).
+ * Segurtasun neurri aurreratuak txertatzen ditu: Rate limiting, Session fixation prebentzioa, eta auditoretza erregistroa.
+ */
 class AuthController extends Controller
 {
     /**
-     * Muestra el formulario de inicio de sesión
+     * Saioa hasteko formularioa erakusten du (erabiltzailea jada konektatuta ez badago).
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function showLogin()
     {
@@ -23,10 +29,13 @@ class AuthController extends Controller
     }
 
     /**
-     * Procesa la autenticación con protecciones de seguridad:
-     * - Rate limiting (anti fuerza bruta)
-     * - Regeneración de sesión (anti session fixation)
-     * - Registro de auditoría (OWASP A09)
+     * Erabiltzailearen autentifikazioa prozesatzen du segurtasun neurriekin:
+     * - Tasa mugatzea (Rate Limiting) indar gordinaren kontra.
+     * - Saioaren ID berritzea (Session Fixation arriskua ezabatzeko).
+     * - Erregistro segurua (Log A09).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function login(Request $request)
     {
@@ -48,7 +57,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            // OWASP A07: Regenerar ID de sesión para mitigar Session Fixation
+            // OWASP A07: Saioaren IDa birsortu Session Fixation erasoak saihesteko
             $request->session()->regenerate();
             RateLimiter::clear($throttleKey);
 
@@ -71,14 +80,16 @@ class AuthController extends Controller
             'ip' => $request->ip()
         ]);
 
-        // Mensaje genérico para prevenir enumeración de usuarios (OWASP A07)
+        // Errore mezu orokorra erabiltzaileen enumerazioa prebenitzeko (OWASP A07)
         return back()->withErrors([
             'email' => 'Kredentzial okerrak eman dira.',
         ])->onlyInput('email');
     }
 
     /**
-     * Muestra el formulario de registro de nuevos usuarios
+     * Erabiltzaile berria erregistratzeko formularioa erakusten du.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function showRegister()
     {
@@ -89,9 +100,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Procesa el registro de nuevos usuarios:
-     * - Forzado de rol 'ikasle' (previene elevación de privilegios / mass assignment)
-     * - Hashing seguro de contraseña con Bcrypt
+     * Erabiltzaile berria sisteman erregistratzen du:
+     * - 'ikasle' rola derrigortzen du (baimenen goratzea saihesteko).
+     * - Pasahitza Bcrypt bidez zifratzen du.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function register(Request $request)
     {
@@ -108,7 +122,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => strtolower($validated['email']),
             'password' => Hash::make($validated['password']),
-            'role' => 'ikasle', // Estudiante por defecto en registro público
+            'role' => 'ikasle', // Ikasle rola lehenetsi erregistro publikoan
         ]);
 
         Log::info("Erabiltzaile berria erregistratu da: {$user->email}", [
@@ -122,9 +136,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Cierre de sesión seguro:
-     * - Invalida la sesión actual
-     * - Regenera el token CSRF
+     * Saioa segurtasunez ixten du:
+     * - Uneko saioa baliogabetzen du (Session Invalidation).
+     * - CSRF tokena berritzen du.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function logout(Request $request)
     {

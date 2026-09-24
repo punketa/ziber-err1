@@ -8,11 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Ikasle eta bisitarientzako ikastaroen kontrolatzaile publikoa.
+ * Katalogoa, xehetasunak, matrikulazio prozesua eta ikaslearen panel propioa kudeatzen ditu.
+ */
 class PublicCourseController extends Controller
 {
     /**
-     * Página principal (index.php / /):
-     * Muestra la oferta completa de cursos con plazas y estado.
+     * Hasierako orria (/): Ikastaro guztien eskaintza, plazak eta egoera bistaratzen ditu (bilaketa-iragazkiarekin).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -44,7 +50,10 @@ class PublicCourseController extends Controller
     }
 
     /**
-     * Detalle de un curso específico
+     * Ikastaro zehatz baten xehetasunak eta matrikulazio aukera bistaratzen ditu.
+     *
+     * @param  \App\Models\Curso  $curso
+     * @return \Illuminate\View\View
      */
     public function show(Curso $curso)
     {
@@ -64,10 +73,13 @@ class PublicCourseController extends Controller
     }
 
     /**
-     * Proceso de matriculación de un alumno en un curso:
-     * - Comprueba estado del curso
-     * - Comprueba disponibilidad de plazas
-     * - Evita ataques de doble matriculación
+     * Ikasle baten matrikulazioa prozesatzen du ikastaro batean:
+     * - Ikastaroaren egoera irekita dagoela eta plaza libreak daudela egiaztatzen du.
+     * - Matrikulazio bikoiztuak prebenitzen ditu (Datuen osotasuna eta segurtasuna).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Curso  $curso
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function enroll(Request $request, Curso $curso)
     {
@@ -81,7 +93,7 @@ class PublicCourseController extends Controller
             return back()->with('error', 'Ez dago plaza librerik ikastaro honetan.');
         }
 
-        // Comprobar si ya existe registro previo
+        // Aurretik matrikulatuta dagoen egiaztatu
         $existing = Matricula::where('usuario_id', $user->id)
             ->where('curso_id', $curso->id)
             ->first();
@@ -115,7 +127,9 @@ class PublicCourseController extends Controller
     }
 
     /**
-     * Panel personal del alumno (Nire Matrikulak)
+     * Ikaslearen panel pertsonala ('Nire Matrikulak'): ikaslearen ikastaroak, egoerak eta notak.
+     *
+     * @return \Illuminate\View\View
      */
     public function myEnrollments()
     {
@@ -128,13 +142,17 @@ class PublicCourseController extends Controller
     }
 
     /**
-     * Cancelar matrícula propia (Protección IDOR: solo la propia matrícula del usuario)
+     * Matrikula propioa bertan behera uztea (IDOR arriskua ekiditeko baimen-kontrola).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Matricula  $matricula
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function cancelEnrollment(Request $request, Matricula $matricula)
     {
         $user = Auth::user();
 
-        // Control de autorización (prevenir Insecure Direct Object Reference)
+        // Baimen kontrola (Insecure Direct Object Reference - IDOR saihesteko)
         if ($matricula->usuario_id !== $user->id && !$user->isAdmin()) {
             Log::warning('Segurtasun abisua: Baimenik gabeko matrikula kentze saiakera (IDOR attempt)', [
                 'user_id' => $user->id,

@@ -19,9 +19,19 @@
 </div>
 
 <div class="card card-corporate shadow-sm">
+    <div class="card-header bg-white border-bottom py-3">
+        <div class="row align-items-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control border-start-0" placeholder="Matrikula bilatu..." data-table-filter="#matriculas-table">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0 table-custom">
+            <table id="matriculas-table" class="table table-hover align-middle mb-0 table-custom">
                 <thead>
                     <tr>
                         <th>#</th>

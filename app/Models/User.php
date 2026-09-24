@@ -6,17 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Erabiltzaileen datu-eredua (Model).
+ * Autentifikazioa, rolak (admin / ikasle) eta erabiltzailearen erlazioak kudeatzen ditu.
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     /**
-     * Tabla asociada en la base de datos MySQL
+     * Datu-baseko taularen izena.
      */
     protected $table = 'usuarios';
 
     /**
-     * The attributes that are mass assignable.
+     * Masiboki esleitu daitezkeen eremuak.
      *
      * @var list<string>
      */
@@ -28,7 +32,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Serializazioan ezkutatu behar diren eremuak.
      *
      * @var list<string>
      */
@@ -38,7 +42,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Moten bihurketa (casting).
      *
      * @return array<string, string>
      */
@@ -51,7 +55,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación con las matrículas del usuario
+     * Erabiltzaile honen matrikulak lortzen ditu (1:N erlazioa).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function matriculas()
     {
@@ -59,7 +65,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Relación muchos a muchos con cursos a través de matrículas
+     * Erabiltzaileak inskribatuta dituen ikastaroak (N:M erlazioa).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function cursos()
     {
@@ -69,7 +77,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Comprobar si el usuario es administrador
+     * Erabiltzailea administratzailea den egiaztatzen du.
+     *
+     * @return bool
      */
     public function isAdmin(): bool
     {
@@ -77,7 +87,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Comprobar si el usuario es estudiante
+     * Erabiltzailea ikaslea den egiaztatzen du.
+     *
+     * @return bool
      */
     public function isIkasle(): bool
     {

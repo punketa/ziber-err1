@@ -6,8 +6,17 @@ use App\Models\Curso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Ikastaroen kudeaketarako kontrolatzailea (CRUD osoa).
+ * Administratzaileari ikastaroak ikusi, sortu, editatu eta ezabatzeko baimena ematen dio.
+ */
 class CursoController extends Controller
 {
+    /**
+     * Ikastaro guztien zerrenda lortzen du, bakoitzaren matrikula aktiboak zenbatuta.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $cursos = Curso::withCount(['matriculas' => function ($q) {
@@ -17,11 +26,22 @@ class CursoController extends Controller
         return view('admin.cursos.index', compact('cursos'));
     }
 
+    /**
+     * Ikastaro berria sortzeko formularioa erakusten du.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('admin.cursos.create');
     }
 
+    /**
+     * Ikastaro berriaren datuak balidatu eta datu-basean txertatzen ditu.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -43,17 +63,36 @@ class CursoController extends Controller
         return redirect()->route('admin.cursos.index')->with('success', 'Ikastaroa arrakastaz sortu da!');
     }
 
+    /**
+     * Ikastaro baten xehetasunak eta bertan dauden matrikulak bistaratzen ditu.
+     *
+     * @param  \App\Models\Curso  $curso
+     * @return \Illuminate\View\View
+     */
     public function show(Curso $curso)
     {
         $curso->load(['matriculas.usuario']);
         return view('admin.cursos.show', compact('curso'));
     }
 
+    /**
+     * Ikastaroa aldatzeko formularioa bistaratzen du.
+     *
+     * @param  \App\Models\Curso  $curso
+     * @return \Illuminate\View\View
+     */
     public function edit(Curso $curso)
     {
         return view('admin.cursos.edit', compact('curso'));
     }
 
+    /**
+     * Aldatutako ikastaroaren datuak balidatu eta datu-basean eguneratzen ditu.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Curso  $curso
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Curso $curso)
     {
         $validated = $request->validate([
@@ -75,6 +114,12 @@ class CursoController extends Controller
         return redirect()->route('admin.cursos.index')->with('success', 'Ikastaroa arrakastaz eguneratu da!');
     }
 
+    /**
+     * Ikastaro bat datu-basetik ezabatzen du (kaskadan ezabatuz matrikulak).
+     *
+     * @param  \App\Models\Curso  $curso
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Curso $curso)
     {
         $izena = $curso->izena;

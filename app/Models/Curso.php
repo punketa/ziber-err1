@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Ikastaroen datu-eredua (Model).
+ * Plataformako ikastaroen informazioa, plazak eta egoera kudeatzen ditu.
+ */
 class Curso extends Model
 {
     use HasFactory;
@@ -32,7 +36,9 @@ class Curso extends Model
     ];
 
     /**
-     * Relación con las matrículas del curso
+     * Ikastaro honi lotutako matrikula guztiak lortzen ditu (1:N erlazioa).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function matriculas()
     {
@@ -40,7 +46,9 @@ class Curso extends Model
     }
 
     /**
-     * Relación con los usuarios inscritos
+     * Ikastaro honetan matrikulatuta dauden ikasle/erabiltzaileak (N:M erlazioa).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function usuarios()
     {
@@ -50,7 +58,9 @@ class Curso extends Model
     }
 
     /**
-     * Calcula las plazas disponibles restantes
+     * Libre geratzen diren plaza kopurua kalkulatzen du (baja egoeran ez daudenak kenduta).
+     *
+     * @return int
      */
     public function plazasDisponibles(): int
     {
@@ -59,7 +69,9 @@ class Curso extends Model
     }
 
     /**
-     * Verifica si el curso admite nuevas matrículas
+     * Ikastaroan matrikula berririk onartzen den egiaztatzen du (irekita eta plazak libre).
+     *
+     * @return bool
      */
     public function isIrekita(): bool
     {

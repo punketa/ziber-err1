@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Matrikulen datu-eredua (Model).
+ * Ikasleen eta ikastaroen arteko erlazioa, data, egoera eta kalifikazioak kudeatzen ditu.
+ */
 class Matricula extends Model
 {
     use HasFactory;
@@ -25,7 +29,9 @@ class Matricula extends Model
     ];
 
     /**
-     * Relación con el usuario (estudiante)
+     * Matrikula honi dagokion erabiltzailea / ikaslea lortzen du (N:1 erlazioa).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function usuario()
     {
@@ -33,7 +39,9 @@ class Matricula extends Model
     }
 
     /**
-     * Relación con el curso
+     * Matrikula honi dagokion ikastaroa lortzen du (N:1 erlazioa).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function curso()
     {
