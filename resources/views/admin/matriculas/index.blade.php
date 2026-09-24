@@ -13,7 +13,7 @@
             <i class="bi bi-arrow-left me-1"></i> Panela
         </a>
         <a href="{{ route('admin.matriculas.create') }}" class="btn btn-tech btn-sm">
-            <i class="bi bi-plus-lg me-1"></i> + Matrikula Berria
+            <i class="bi bi-plus-lg me-1"></i> Matrikula Berria
         </a>
     </div>
 </div>

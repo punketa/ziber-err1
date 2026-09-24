@@ -13,7 +13,7 @@
             <i class="bi bi-arrow-left me-1"></i> Panela
         </a>
         <a href="{{ route('admin.usuarios.create') }}" class="btn btn-cta btn-sm">
-            <i class="bi bi-person-plus-fill me-1"></i> + Erabiltzaile Berria
+            <i class="bi bi-person-plus-fill me-1"></i> Erabiltzaile Berria
         </a>
     </div>
 </div>

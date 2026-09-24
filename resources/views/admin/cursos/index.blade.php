@@ -13,7 +13,7 @@
             <i class="bi bi-arrow-left me-1"></i> Panela
         </a>
         <a href="{{ route('admin.cursos.create') }}" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus-lg me-1"></i> + Ikastaro Berria
+            <i class="bi bi-plus-lg me-1"></i> Ikastaro Berria
         </a>
     </div>
 </div>
