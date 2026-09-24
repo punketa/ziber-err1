@@ -1,0 +1,421 @@
+/**
+ * ====================================================================
+ * Aplikazioen Garapena eta Web Plataforma - Estilo Korporatiboak
+ * Zibersegurtasun Espezializazioa
+ * ====================================================================
+ * Paleta Korporatiboa:
+ * - Violeta principal:    #563F98
+ * - Violeta secundario:   #6B59AC
+ * - Azul-violeta oscuro:  #272447
+ * - Verde tecnológico:    #5CC37C
+ * - Verde profundo:       #355B34
+ * - Lavanda claro:        #D3D8F0
+ * - Blanco:               #FFFFFF
+ * ====================================================================
+ */
+
+/* --------------------------------------------------------------------
+ * 1. VARIABLERAK ETA OINARRIZKO ESTILOAK (Variables & Base)
+ * ------------------------------------------------------------------ */
+:root {
+    --color-violet-primary: #563F98;
+    --color-violet-secondary: #6B59AC;
+    --color-dark-surface: #272447;
+    --color-green-tech: #5CC37C;
+    --color-green-deep: #355B34;
+    --color-lavender-light: #D3D8F0;
+    --color-white: #FFFFFF;
+    --body-bg: #f7f8fd;
+    --surface-tint: #f3f5fd;
+    --surface-tint-success: #eaf8ef;
+}
+
+body {
+    background-color: var(--body-bg);
+    color: var(--color-dark-surface);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+main {
+    flex: 1;
+}
+
+/* --------------------------------------------------------------------
+ * 2. TIPOGRAFIA ETA KOLORE UTILITY KLASEAK (Typography & Utilities)
+ * ------------------------------------------------------------------ */
+.text-dark-surface {
+    color: var(--color-dark-surface) !important;
+}
+
+.text-violet-primary {
+    color: var(--color-violet-primary) !important;
+}
+
+.text-violet-secondary {
+    color: var(--color-violet-secondary) !important;
+}
+
+.text-green-tech {
+    color: var(--color-green-tech) !important;
+}
+
+.text-green-deep {
+    color: var(--color-green-deep) !important;
+}
+
+.text-lavender {
+    color: var(--color-lavender-light) !important;
+}
+
+.bg-surface-tint {
+    background-color: var(--surface-tint) !important;
+}
+
+.bg-dark-surface {
+    background-color: var(--color-dark-surface) !important;
+}
+
+.border-lavender {
+    border-color: var(--color-lavender-light) !important;
+}
+
+.border-corporate-top {
+    border-top: 1px solid var(--color-lavender-light) !important;
+}
+
+.border-corporate-bottom {
+    border-bottom: 1px solid var(--color-lavender-light) !important;
+}
+
+/* --------------------------------------------------------------------
+ * 3. NABIGAZIO-BARRA ETA HEADERRA (Navbar & Header)
+ * ------------------------------------------------------------------ */
+.navbar-custom {
+    background-color: var(--color-dark-surface);
+    border-bottom: 2px solid var(--color-violet-primary);
+    box-shadow: 0 2px 8px rgba(39, 36, 71, 0.2);
+}
+
+.navbar-custom .navbar-brand {
+    color: var(--color-white) !important;
+    font-weight: 700;
+}
+
+.navbar-custom .navbar-brand i {
+    color: var(--color-green-tech);
+}
+
+.navbar-custom .nav-link {
+    color: var(--color-lavender-light) !important;
+    font-weight: 500;
+    transition: color 0.15s ease-in-out;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link:focus,
+.navbar-custom .nav-link.active {
+    color: var(--color-white) !important;
+}
+
+.navbar-custom .nav-link-admin {
+    color: var(--color-green-tech) !important;
+    font-weight: 600;
+}
+
+.navbar-custom .dropdown-menu-custom {
+    background-color: var(--color-dark-surface);
+    border: 1px solid var(--color-violet-secondary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-custom .dropdown-item {
+    color: var(--color-lavender-light);
+}
+
+.navbar-custom .dropdown-item:hover {
+    background-color: var(--color-violet-primary);
+    color: var(--color-white);
+}
+
+.navbar-custom .dropdown-divider-custom {
+    border-top: 1px solid rgba(211, 216, 240, 0.2);
+}
+
+.navbar-user-text i {
+    color: var(--color-lavender-light);
+}
+
+.btn-nav-logout {
+    border-color: var(--color-lavender-light) !important;
+    color: var(--color-lavender-light) !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-nav-logout:hover {
+    background-color: rgba(211, 216, 240, 0.15) !important;
+    color: var(--color-white) !important;
+}
+
+/* --------------------------------------------------------------------
+ * 4. BOTOIAK ETA EKINTZAK (Buttons & Interactive Actions)
+ * ------------------------------------------------------------------ */
+.btn-primary,
+.btn-corporate-primary {
+    background-color: var(--color-violet-primary) !important;
+    border-color: var(--color-violet-primary) !important;
+    color: var(--color-white) !important;
+    font-weight: 500;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-corporate-primary:hover,
+.btn-corporate-primary:focus {
+    background-color: var(--color-violet-secondary) !important;
+    border-color: var(--color-violet-secondary) !important;
+    color: var(--color-white) !important;
+}
+
+.btn-cta,
+.btn-tech {
+    background-color: var(--color-green-tech) !important;
+    border-color: var(--color-green-tech) !important;
+    color: var(--color-dark-surface) !important;
+    font-weight: 600;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-cta:hover,
+.btn-cta:focus,
+.btn-tech:hover,
+.btn-tech:focus {
+    background-color: #4eb56e !important;
+    border-color: #4eb56e !important;
+    color: var(--color-dark-surface) !important;
+}
+
+.btn-corporate-outline {
+    border-color: var(--color-lavender-light) !important;
+    color: var(--color-dark-surface) !important;
+    background-color: transparent;
+}
+
+.btn-corporate-outline:hover,
+.btn-corporate-outline:focus {
+    background-color: var(--surface-tint) !important;
+    border-color: var(--color-violet-secondary) !important;
+    color: var(--color-dark-surface) !important;
+}
+
+.btn-secondary {
+    background-color: var(--color-violet-secondary) !important;
+    border-color: var(--color-violet-secondary) !important;
+    color: var(--color-white) !important;
+}
+
+/* --------------------------------------------------------------------
+ * 5. TXARTELAK ETA EDUKIAK (Cards & Panels)
+ * ------------------------------------------------------------------ */
+.card-corporate {
+    border: 1px solid var(--color-lavender-light) !important;
+    border-radius: 8px;
+    background-color: var(--color-white);
+    box-shadow: 0 1px 3px rgba(39, 36, 71, 0.06);
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card-corporate:hover {
+    box-shadow: 0 4px 12px rgba(39, 36, 71, 0.1);
+}
+
+.card-header-dark {
+    background-color: var(--color-dark-surface) !important;
+    border-bottom: 2px solid var(--color-violet-primary) !important;
+    color: var(--color-white);
+}
+
+.card-header-clean {
+    background-color: var(--color-white) !important;
+    border-bottom: 1px solid var(--color-lavender-light) !important;
+}
+
+.box-highlight {
+    background-color: var(--surface-tint);
+    border: 1px solid var(--color-lavender-light);
+    border-radius: 8px;
+}
+
+.progress-corporate {
+    height: 12px;
+    background-color: var(--color-lavender-light);
+    border-radius: 6px;
+}
+
+.progress-bar-corporate {
+    background-color: var(--color-violet-primary);
+    border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------
+ * 6. METRIKA ETA STAT TXARTELAK (Admin Metric Cards)
+ * ------------------------------------------------------------------ */
+.stat-card-total {
+    background: linear-gradient(135deg, var(--color-violet-primary) 0%, var(--color-violet-secondary) 100%);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+}
+
+.stat-card-success {
+    background: linear-gradient(135deg, var(--color-green-deep) 0%, #467945 100%);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+}
+
+.stat-card-tech {
+    background: linear-gradient(135deg, var(--color-dark-surface) 0%, #363261 100%);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+}
+
+/* --------------------------------------------------------------------
+ * 7. FORMULARIOAK ETA SARRERAK (Forms & Inputs)
+ * ------------------------------------------------------------------ */
+.form-control-corporate,
+.form-select-corporate {
+    border-color: var(--color-lavender-light) !important;
+    color: var(--color-dark-surface);
+}
+
+.form-control-corporate:focus,
+.form-select-corporate:focus {
+    border-color: var(--color-violet-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(86, 63, 152, 0.25) !important;
+}
+
+/* --------------------------------------------------------------------
+ * 8. TAULAK (Tables)
+ * ------------------------------------------------------------------ */
+.table-custom {
+    --bs-table-color: var(--color-dark-surface);
+    --bs-table-bg: #ffffff;
+    --bs-table-border-color: var(--color-lavender-light);
+    --bs-table-hover-bg: #f3f5fd;
+    --bs-table-hover-color: var(--color-dark-surface);
+    color: var(--color-dark-surface) !important;
+    background-color: #ffffff !important;
+}
+
+.table-custom thead th {
+    --bs-table-bg: var(--color-dark-surface) !important;
+    --bs-table-color: var(--color-white) !important;
+    background-color: var(--color-dark-surface) !important;
+    color: var(--color-white) !important;
+    box-shadow: none !important;
+    border-bottom: 2px solid var(--color-violet-secondary) !important;
+    font-weight: 600;
+}
+
+.table-custom tbody td {
+    --bs-table-bg: #ffffff !important;
+    --bs-table-color: var(--color-dark-surface) !important;
+    background-color: #ffffff !important;
+    color: var(--color-dark-surface) !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--color-lavender-light);
+}
+
+.table-custom tbody tr:hover td {
+    background-color: #f3f5fd !important;
+    box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------
+ * 9. INFORMAZIO PLAKATXOAK (Badges)
+ * ------------------------------------------------------------------ */
+.badge-violet {
+    --bs-badge-color: var(--color-white) !important;
+    background-color: var(--color-violet-primary) !important;
+    color: var(--color-white) !important;
+}
+
+.badge-violet-secondary {
+    --bs-badge-color: var(--color-white) !important;
+    background-color: var(--color-violet-secondary) !important;
+    color: var(--color-white) !important;
+}
+
+.badge-violet-subtle {
+    --bs-badge-color: var(--color-dark-surface) !important;
+    background-color: var(--color-lavender-light) !important;
+    color: var(--color-dark-surface) !important;
+    border: 1px solid rgba(86, 63, 152, 0.25) !important;
+    font-weight: 600;
+}
+
+.badge-tech {
+    --bs-badge-color: var(--color-dark-surface) !important;
+    background-color: var(--color-green-tech) !important;
+    color: var(--color-dark-surface) !important;
+    font-weight: 600;
+}
+
+.badge-green-deep {
+    --bs-badge-color: var(--color-white) !important;
+    background-color: var(--color-green-deep) !important;
+    color: var(--color-white) !important;
+}
+
+.badge-dark-surface {
+    --bs-badge-color: var(--color-white) !important;
+    background-color: var(--color-dark-surface) !important;
+    color: var(--color-white) !important;
+}
+
+.badge-closed {
+    --bs-badge-color: var(--color-white) !important;
+    background-color: #6c757d !important;
+    color: var(--color-white) !important;
+}
+
+/* --------------------------------------------------------------------
+ * 10. ALERTAK ETA JAKINARAZPENAK (Alerts)
+ * ------------------------------------------------------------------ */
+.alert-corporate-success {
+    background-color: var(--surface-tint-success) !important;
+    border: 1px solid var(--color-green-tech) !important;
+    color: var(--color-green-deep) !important;
+}
+
+.alert-corporate-success i {
+    color: var(--color-green-tech);
+}
+
+.alert-corporate-danger {
+    background-color: #fdf2f2 !important;
+    border: 1px solid #f8b4b4 !important;
+    color: #9b1c1c !important;
+}
+
+/* --------------------------------------------------------------------
+ * 11. FOOTERRA (Footer)
+ * ------------------------------------------------------------------ */
+.footer-custom {
+    background-color: var(--color-dark-surface);
+    color: var(--color-lavender-light);
+    border-top: 2px solid var(--color-violet-primary);
+}
+
+.footer-custom p {
+    color: var(--color-lavender-light);
+}
+
+.footer-custom .footer-brand {
+    color: var(--color-white);
+}
