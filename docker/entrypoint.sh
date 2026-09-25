@@ -34,13 +34,9 @@ if [ -n "$DB_HOST" ] && [ "$DB_CONNECTION" = "mysql" ]; then
 fi
 
 # 4. Comprobar APP_KEY (esencial para cifrado y sesiones)
-if [ -z "$APP_KEY" ]; then
-    echo ">> APP_KEY vacia o no configurada. Generando clave..."
-    NEW_KEY=$(php artisan key:generate --show)
-    export APP_KEY="$NEW_KEY"
-    if [ -f /var/www/html/.env ]; then
-        sed -i "s|^APP_KEY=.*|APP_KEY=$NEW_KEY|" /var/www/html/.env
-    fi
+if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "" ]; then
+    echo ">> APP_KEY no configurada. Generando clave en memoria..."
+    export APP_KEY="$(php artisan key:generate --show)"
 fi
 
 # 5. Enlace simbolico storage:link
