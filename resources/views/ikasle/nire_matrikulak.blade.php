@@ -65,7 +65,7 @@
                                     <form action="{{ route('student.matriculas.cancel', $m->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Ziur zaude matrikula honi baja eman nahi diozula?')">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" data-confirm="Ziur zaude matrikula honi baja eman nahi diozula?">
                                             <i class="bi bi-x-circle me-1"></i> Baja eman
                                         </button>
                                     </form>

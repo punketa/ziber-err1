@@ -113,20 +113,128 @@ function dismissAlert(alertElement) {
 }
 
 /**
- * 3. Ekintza suntsitzaileen baieztapenak (Delete / Baja).
- * Ezusteko klikak saihesteko baieztapen elkarrizketa-koadroak kudeatzen ditu.
+ * 3. Ekintza suntsitzaileen eta eragiketa garrantzitsuen baieztapenak (SweetAlert2 bidez).
+ * Ezusteko klikak saihesteko SweetAlert2 elkarrizketa-koadro interaktiboak kudeatzen ditu.
  */
 function initActionConfirmations() {
-    document.querySelectorAll('[data-confirm]').forEach(function (element) {
-        element.addEventListener('click', function (e) {
-            const message = this.getAttribute('data-confirm') || 'Ziur zaude ekintza hau burutu nahi duzula?';
-            if (!confirm(message)) {
-                e.preventDefault();
-                e.stopPropagation();
+    // Retrokompatibilitatea: inline onclick="return confirm('...')" dutenak automatikoki data-confirm bihurtu
+    document.querySelectorAll('[onclick*="confirm("]').forEach(function (el) {
+        const onclickStr = el.getAttribute('onclick');
+        const match = onclickStr.match(/confirm\(\s*(?:'|")(.+?)(?:'|")\s*\)/);
+        if (match && match[1]) {
+            el.setAttribute('data-confirm', match[1].replace(/\\'/g, "'").replace(/\\"/g, '"'));
+            el.removeAttribute('onclick');
+        }
+    });
+
+    // Gertaera entzule delegatua data-confirm atributua duten elementuentzat
+    document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('[data-confirm]');
+        if (!trigger) return;
+
+        // Botoia SweetAlert bidez dagoeneko berretsi bada, utzi bidaltzen
+        if (trigger.dataset.confirmed === 'true') {
+            delete trigger.dataset.confirmed;
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const message = trigger.getAttribute('data-confirm') || 'Ziur zaude ekintza hau burutu nahi duzula?';
+        const form = trigger.closest('form');
+        const isDanger = trigger.classList.contains('btn-danger') || 
+                         trigger.classList.contains('btn-outline-danger') ||
+                         trigger.classList.contains('text-danger');
+
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: 'Ziur zaude?',
+                text: message,
+                icon: isDanger ? 'warning' : 'question',
+                showCancelButton: true,
+                confirmButtonColor: isDanger ? '#dc3545' : '#563F98',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: isDanger ? 'Bai, ezabatu' : 'Bai, aurrera',
+                cancelButtonText: 'Utzi',
+                reverseButtons: true,
+                focusCancel: isDanger
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    if (form) {
+                        trigger.dataset.confirmed = 'true';
+                        if (typeof form.requestSubmit === 'function') {
+                            form.requestSubmit(trigger.type === 'submit' ? trigger : undefined);
+                        } else {
+                            form.submit();
+                        }
+                    } else if (trigger.tagName === 'A' && trigger.href) {
+                        window.location.href = trigger.href;
+                    }
+                }
+            });
+        } else {
+            // SweetAlert liburutegirik ez balego, nabigatzailearen confirm() estandarra erabili
+            if (confirm(message)) {
+                if (form) {
+                    trigger.dataset.confirmed = 'true';
+                    if (typeof form.requestSubmit === 'function') {
+                        form.requestSubmit(trigger.type === 'submit' ? trigger : undefined);
+                    } else {
+                        form.submit();
+                    }
+                } else if (trigger.tagName === 'A' && trigger.href) {
+                    window.location.href = trigger.href;
+                }
             }
-        });
+        }
     });
 }
+
+/**
+ * 4. Nabigatzailearen alert() lehenetsiaren ordezkoa SweetAlert2 bidez
+ */
+window.alert = function (message) {
+    if (typeof Swal !== 'undefined') {
+        return Swal.fire({
+            title: 'Oharra',
+            text: message,
+            icon: 'info',
+            confirmButtonColor: '#563F98',
+            confirmButtonText: 'Ados'
+        });
+    }
+    console.warn('Alert:', message);
+};
+
+/**
+ * Jakinarazpen azkarretarako laguntzaile globalak
+ */
+window.notifySuccess = function (message, title = 'Bikain!') {
+    if (typeof Swal !== 'undefined') {
+        return Swal.fire({
+            icon: 'success',
+            title: title,
+            text: message,
+            confirmButtonColor: '#563F98',
+            timer: 4000,
+            timerProgressBar: true
+        });
+    }
+    alert(message);
+};
+
+window.notifyError = function (message, title = 'Errorea!') {
+    if (typeof Swal !== 'undefined') {
+        return Swal.fire({
+            icon: 'error',
+            title: title,
+            text: message,
+            confirmButtonColor: '#dc3545'
+        });
+    }
+    alert(message);
+};
 
 /**
  * XSS prebentziorako testu-garbiketa bezeroan
@@ -136,3 +244,4 @@ function escapeHtml(str) {
     div.textContent = str;
     return div.innerHTML;
 }
+

@@ -101,7 +101,7 @@
                                     @elseif($curso->isIrekita())
                                         <form action="{{ route('cursos.enroll', $curso->id) }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-cta btn-sm" onclick="return confirm('\'{{ $curso->izena }}\' ikastaroan matrikulatu nahi duzu?')">
+                                            <button type="submit" class="btn btn-cta btn-sm" data-confirm="'{{ $curso->izena }}' ikastaroan matrikulatu nahi duzu?">
                                                 <i class="bi bi-plus-circle me-1"></i> Matrikulatu
                                             </button>
                                         </form>

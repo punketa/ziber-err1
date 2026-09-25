@@ -73,7 +73,7 @@
                                 <form action="{{ route('admin.cursos.destroy', $curso->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Ziur zaude \'{{ $curso->izena }}\' ikastaroa ezabatu nahi duzula?')" title="Ezabatu">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" data-confirm="Ziur zaude '{{ $curso->izena }}' ikastaroa ezabatu nahi duzula?" title="Ezabatu">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>

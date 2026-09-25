@@ -77,31 +77,30 @@
     </nav>
 
     <main class="container mt-4 mb-5">
-        @if(session('success'))
-            <div class="alert alert-corporate-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+        <noscript>
+            @if(session('success'))
+                <div class="alert alert-corporate-success" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                </div>
+            @endif
 
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+            @if(session('error'))
+                <div class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+                </div>
+            @endif
 
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong><i class="bi bi-shield-exclamation me-2"></i> Errorea gertatu da:</strong>
-                <ul class="mb-0 mt-2">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
+            @if($errors->any())
+                <div class="alert alert-danger" role="alert">
+                    <strong><i class="bi bi-shield-exclamation me-2"></i> Errorea gertatu da:</strong>
+                    <ul class="mb-0 mt-2">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </noscript>
 
         @yield('content')
     </main>
@@ -113,6 +112,63 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/app.js') }}?v={{ file_exists(public_path('js/app.js')) ? filemtime(public_path('js/app.js')) : '1.0' }}"></script>
+
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Bikain!',
+                    text: {!! json_encode(session('success')) !!},
+                    confirmButtonColor: '#563F98',
+                    timer: 4000,
+                    timerProgressBar: true
+                });
+            });
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Errorea!',
+                    text: {!! json_encode(session('error')) !!},
+                    confirmButtonColor: '#dc3545'
+                });
+            });
+        </script>
+    @endif
+
+    @if(session('status'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Oharra',
+                    text: {!! json_encode(session('status')) !!},
+                    confirmButtonColor: '#563F98',
+                    timer: 4000,
+                    timerProgressBar: true
+                });
+            });
+        </script>
+    @endif
+
+    @if($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Errorea gertatu da',
+                    html: {!! json_encode('<div style="text-align: left;"><ul style="margin-bottom: 0; padding-left: 1.25rem;">' . implode('', array_map(fn($e) => '<li>' . e($e) . '</li>', $errors->all())) . '</ul></div>') !!},
+                    confirmButtonColor: '#dc3545'
+                });
+            });
+        </script>
+    @endif
 </body>
 </html>

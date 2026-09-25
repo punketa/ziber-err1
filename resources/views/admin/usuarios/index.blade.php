@@ -71,7 +71,7 @@
                                     <form action="{{ route('admin.usuarios.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Ziur zaude \'{{ $user->name }}\' erabiltzailea ezabatu nahi duzula?')" title="Ezabatu">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" data-confirm="Ziur zaude '{{ $user->name }}' erabiltzailea ezabatu nahi duzula?" title="Ezabatu">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
