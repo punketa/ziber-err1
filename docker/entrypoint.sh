@@ -33,11 +33,13 @@ if [ -n "$DB_HOST" ] && [ "$DB_CONNECTION" = "mysql" ]; then
     fi
 fi
 
-# 4. Comprobar APP_KEY
-if [ -z "$APP_KEY" ] && [ -f /var/www/html/.env ]; then
-    if grep -q "^APP_KEY=$" /var/www/html/.env || ! grep -q "^APP_KEY=" /var/www/html/.env; then
-        echo ">> Generando APP_KEY..."
-        php artisan key:generate --force
+# 4. Comprobar APP_KEY (esencial para cifrado y sesiones)
+if [ -z "$APP_KEY" ]; then
+    echo ">> APP_KEY vacia o no configurada. Generando clave..."
+    NEW_KEY=$(php artisan key:generate --show)
+    export APP_KEY="$NEW_KEY"
+    if [ -f /var/www/html/.env ]; then
+        sed -i "s|^APP_KEY=.*|APP_KEY=$NEW_KEY|" /var/www/html/.env
     fi
 fi
 
