@@ -1,0 +1,35 @@
+services:
+  # ==============================================================================
+  # Servidor de Base de Datos MySQL 8.0 (Para el Ubuntu Server de BD)
+  # ==============================================================================
+  mysql:
+    image: mysql:8.0
+    container_name: ikaskude_mysql_server
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+      - --innodb-buffer-pool-size=512M
+      - --max-connections=150
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_password_segura_123}
+      MYSQL_DATABASE: ${DB_DATABASE:-ciber_plataforma}
+      MYSQL_USER: ${DB_USERNAME:-ciber_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-ciber_password_segura_123}
+      TZ: Europe/Madrid
+    ports:
+      # Puerto 3306 expuesto. Proteger con UFW para aceptar solo peticiones del Servidor Web
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql_data:
+    name: ikaskude_mysql_data
